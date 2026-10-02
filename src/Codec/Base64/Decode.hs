@@ -36,9 +36,18 @@ follow a final incomplete group, so they don't appear in 'decodeRest'.
   checked. Non-canonical encodings such as @\"TR==\"@ decode the same as
   their canonical form, @\"TQ==\"@.
 
-* The input is consumed up to the point where decoding stops before any
-  output is returned, so 'decode' isn't suitable for incremental decoding
-  of infinite streams.
+= Laziness
+
+'decode' and 'decoded' are lazy: the bytes of each group are returned as
+soon as its characters have been read, so infinite or very long inputs can
+be decoded incrementally in constant memory. In lenient mode, an
+arbitrarily long run of skipped characters can delay the next group.
+
+'decodeRest' and 'decodeState' are only known once decoding has stopped,
+so evaluating them consumes the input up to that point.
+
+>>> take 3 (decode [] (cycle "TWFu"))
+[77,97,110]
 -}
 module Codec.Base64.Decode (
     -- * Decoding
@@ -160,6 +169,13 @@ decodeResult flags s =
                  in DecodeResult (0,0) cs' [b0,b1]
             _ -> error "goEnd: unreachable code"
 
+        -- Prepend three bytes to 'decoded' without forcing the rest of the
+        -- result, so that bytes are produced as the input is consumed.
+        emit3 :: Word8 -> Word8 -> Word8 -> DecodeResult [Word8]
+              -> DecodeResult [Word8]
+        emit3 b0 b1 b2 r =
+            DecodeResult (decodeState r) (decodeRest r) (b0:b1:b2:decoded r)
+
         ---
         goStrict :: String -> (Int,Word) -> String -> DecodeResult [Word8]
 
@@ -167,7 +183,7 @@ decodeResult flags s =
             let b0 = word8 $ buf .>>. 16     -- 24 bits in buffer
                 b1 = word8 $ buf .>>. 8
                 b2 = word8 $ buf
-            in (b0:) . (b1:) . (b2:) <$> goStrict cs (0,0) cs
+            in emit3 b0 b1 b2 (goStrict cs (0,0) cs)
 
         goStrict rest state@(n,buf) cs@(c:cs') = case from64 c of
             Left _  -> goEnd rest state cs
@@ -181,7 +197,7 @@ decodeResult flags s =
             let b0 = word8 $ buf .>>. 16     -- 24 bits in buffer
                 b1 = word8 $ buf .>>. 8
                 b2 = word8 $ buf
-            in (b0:) . (b1:) . (b2:) <$> goLenient cs (0,0) cs
+            in emit3 b0 b1 b2 (goLenient cs (0,0) cs)
 
         goLenient rest state@(n,buf) cs@(c:cs') = case from64 c of
             Left '=' | nset IgnorePadChar -> goEnd rest state cs
