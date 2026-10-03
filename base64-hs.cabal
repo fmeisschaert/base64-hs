@@ -20,7 +20,7 @@ name:               base64-hs
 -- PVP summary:     +-+------- breaking API changes
 --                  | | +----- non-breaking API additions
 --                  | | | +--- code changes with no API change
-version:            0.1.0.1
+version:            0.2.0.0
 
 -- A short (one-line) description of the package.
 synopsis:           Base64 encoding and decoding in pure Haskell
@@ -65,7 +65,7 @@ maintainer:         fmeisschaert@gmail.com
 
 -- A copyright notice.
 -- copyright:
-category:           Codec
+category:           Codec, Data, Utils
 build-type:         Simple
 
 -- Extra doc files to be distributed with the package, such as a CHANGELOG or a README.
@@ -87,7 +87,7 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Codec.Base64, Codec.Base64.Flags, Codec.Base64.Encode, Codec.Base64.Decode
+    exposed-modules:  Base64, Base64.Flags, Base64.Encode, Base64.Decode
 
     -- Modules included in this library but not exported.
     -- other-modules:

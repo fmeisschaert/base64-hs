@@ -1,6 +1,6 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-|
-Module      : Codec.Base64.Decode
+Module      : Base64.Decode
 Description : Base64 decoding
 Copyright   : (c) Frank Meisschaert, 2026
 License     : BSD-3-Clause
@@ -49,7 +49,7 @@ so evaluating them consumes the input up to that point.
 >>> take 3 (decode [] (cycle "TWFu"))
 [77,97,110]
 -}
-module Codec.Base64.Decode (
+module Base64.Decode (
     -- * Decoding
     decode,
     decodeResult,
@@ -61,7 +61,7 @@ import Data.Bits
 import Data.Char
 import Data.Word
 
-import Codec.Base64.Flags
+import Base64.Flags
 
 char2integral :: (Integral a) => Char -> a
 char2integral = fromIntegral . ord

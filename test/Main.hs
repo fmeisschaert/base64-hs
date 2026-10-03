@@ -3,7 +3,7 @@ module Main (main) where
 import Control.Monad (unless)
 import System.Exit (exitFailure)
 
-import Codec.Base64
+import Base64
 
 -- Each test has a name and whether it passed.
 tests :: [(String, Bool)]

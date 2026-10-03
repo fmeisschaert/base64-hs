@@ -1,6 +1,6 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-|
-Module      : Codec.Base64.Encode
+Module      : Base64.Encode
 Description : Base64 encoding
 Copyright   : (c) Frank Meisschaert, 2026
 License     : BSD-3-Clause
@@ -11,7 +11,7 @@ Portability : portable
 Encodes a sequence of bytes as Base64 text, as described in
 <https://www.rfc-editor.org/rfc/rfc4648 RFC 4648>.
 -}
-module Codec.Base64.Encode (
+module Base64.Encode (
     encode
 ) where
 
@@ -20,7 +20,7 @@ import Data.Char
 import Data.Maybe
 import Data.Word
 
-import Codec.Base64.Flags
+import Base64.Flags
 
 integral2char :: (Integral a) => a -> Char
 integral2char = chr . fromIntegral

@@ -1,5 +1,5 @@
 {-|
-Module      : Codec.Base64.Flags
+Module      : Base64.Flags
 Description : Options controlling Base64 encoding and decoding
 Copyright   : (c) Frank Meisschaert, 2026
 License     : BSD-3-Clause
@@ -9,7 +9,7 @@ Portability : portable
 
 Options that select the Base64 variant and how strictly input is
 decoded. The same 'Flags' type is used by both
-'Codec.Base64.Encode.encode' and 'Codec.Base64.Decode.decode'. A flag that
+'Base64.Encode.encode' and 'Base64.Decode.decode'. A flag that
 doesn't apply to an operation is ignored.
 
 Some common combinations:
@@ -26,7 +26,7 @@ Some common combinations:
 [@[Lenient, Padding]@] Decodes standard Base64 that may contain line
   breaks or other whitespace, such as MIME bodies or PEM files.
 -}
-module Codec.Base64.Flags
+module Base64.Flags
 where
 
 -- | A single option for encoding or decoding.
@@ -37,7 +37,7 @@ data Flag
       --
       -- __Decoding:__ consume the @=@ padding characters that follow a
       -- final incomplete group. Without this flag, they are left in
-      -- 'Codec.Base64.Decode.decodeRest'. Padding is accepted but never
+      -- 'Base64.Decode.decodeRest'. Padding is accepted but never
       -- required.
     | Url
       -- ^ Use the URL- and filename-safe alphabet, which has @-@ and @_@

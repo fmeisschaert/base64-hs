@@ -1,5 +1,5 @@
 {-|
-Module      : Codec.Base64
+Module      : Base64
 Description : Base64 encoding and decoding in pure Haskell
 Copyright   : (c) Frank Meisschaert, 2026
 License     : BSD-3-Clause
@@ -11,8 +11,16 @@ Base64 encoding and decoding as described in
 <https://www.rfc-editor.org/rfc/rfc4648 RFC 4648>. Binary data is
 represented as @['Data.Word.Word8']@ and Base64 text as 'String'.
 
-This module re-exports "Codec.Base64.Flags", "Codec.Base64.Encode" and
-"Codec.Base64.Decode", so importing it is usually enough.
+This module re-exports "Base64.Flags", "Base64.Encode" and
+"Base64.Decode", so importing it is usually enough.
+
+This module should be imported qualified. With a possible exception
+for "Flag" and "DecodeResult". For example:
+
+>>> import Base64 qualified
+>>> import Base64 (Flag(..))
+>>>
+>>> encoded = Base64.encode [Padding,Url] stringInput
 
 = Quick start
 
@@ -44,7 +52,7 @@ returns it so you can check that the whole input was consumed:
 >>> decodeRest (decodeResult [Padding] "SGVsbG8=!")
 "!"
 -}
-module Codec.Base64 (
+module Base64 (
     -- * Flags
     Flag(..),
     Flags,
@@ -56,6 +64,6 @@ module Codec.Base64 (
     DecodeResult(..)
 ) where
 
-import Codec.Base64.Flags
-import Codec.Base64.Encode
-import Codec.Base64.Decode
+import Base64.Flags
+import Base64.Encode
+import Base64.Decode
